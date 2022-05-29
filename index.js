@@ -79,34 +79,6 @@ function updateSpecs(key, value){
   dict[key] = value
 }
 
-function image(message){
-  var options = {
-    url: "http://results.dogpile.com/serp?qc=images&q="+ message,
-    method: "GET",
-    headers: {
-      "Accept": "text/html",
-      "User-Agent": "Chrome"
-    }
-  }
-  request(options, function(error, response, responseBody) {
-
-    if (error) {
-      return
-    }
-    $ = cheerio.load(responseBody);
-    var links = $(".image a.link")
-    var urls = new Array(links.length).fill(0).map((v,i) => links.eq(i).attr("href"))
-    console.log(urls)
-    if (!urls.length){
-      return
-    }
-    //send 
-    message.channel.send( urls [0])
-
-    // message.channel.send( urls[Math.floor(Math.random() * urls.length)] + " " + message.guild.members.random())
-  })
-}
-
 function getQuote(){
   return fetch("http://zenquotes.io/api/random").then(res => {
     return res.json()
@@ -191,17 +163,8 @@ client.on("message", msg => {
     }
   }
 
-  // specs
-  if (msg.content.startsWith("$specs")){
-    name = msg.content.split("$specs ")[1]
-    const nameValue = process.env[name]
-    msg.channel.send(nameValue)
-  }
-
-  // twice by google image search
-  if (msg.content.startsWith("$image")){
-    item = msg.content.split("$image ")[1]
-    image(item)
+  if (msg.content.startsWith("$help")){
+    msg.channel.send('/roll \n /$8ball \n $inspire \n $flip')
   }
 })
 

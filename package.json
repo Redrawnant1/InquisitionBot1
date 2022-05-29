@@ -1,0 +1,15 @@
+{
+    "name": "node.js-v16-on-replit-demo",
+    "version": "0.0.1",
+    "dependencies": {
+      "@replit/database": "^2.0.1",
+      "@types/node-fetch": "^3.0.3",
+      "cheerio": "^1.0.0-rc.10",
+      "discord.js": "^12.5.3",
+      "express": "^4.17.1",
+      "node": "^16.13.0",
+      "node-fetch": "^3.0.0",
+      "request": "^2.88.2"
+    }
+  }
+  

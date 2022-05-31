@@ -97,7 +97,6 @@ client.on("message", msg => {
   
   if (msg.content === "$flip"){
     const coin = Math.floor(Math.random() * 100) + 1
-    
     if (coin < 50){
       msg.channel.send("Heads")
       heads += 1
@@ -105,9 +104,6 @@ client.on("message", msg => {
       msg.channel.send("Tails")
       tails += 1 
     }
-    msg.channel.send("Heads: " + heads + " " + "Tails: " + tails)
-    msg.channel.send("%Heads: " + heads/(heads+tails)*100 + " " +
-                     "%Tails: " + tails/(heads+tails)*100)
   }
 
   if (msg.content.startsWith("/roll")){

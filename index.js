@@ -74,7 +74,33 @@ function deleteEncouragement(index){
     }
   })
 }
-  
+
+const catOptions = {
+  method: 'GET',
+  url: 'https://wordsapiv1.p.rapidapi.com/words/hatchback/typeOf',
+  headers: {
+    'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com',
+    'X-RapidAPI-Key': 'SIGN-UP-FOR-KEY'
+  }
+};
+
+function getCat(){
+  fetch('https://api.thecatapi.com/v1/images/search?format=json?api_key=15b80660-f787-41a9-9883-32eeb6e61353')
+  .then(
+    function(response) {
+      response.json().then(function(data) {
+        data.forEach(cat => {
+          const img = new Image()
+          img.onload=function() {
+            document.body.appendChild(img)
+          };
+          img.src = cat.url
+          console.log(cat.url)
+        })
+      })
+    })
+}
+
 function updateSpecs(key, value){
   dict[key] = value
 }
@@ -92,6 +118,7 @@ client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`)
 })
 
+// Where the msg.content starts with comes in 
 client.on("message", msg => {
   if (msg.author.bot) return
   
@@ -106,6 +133,190 @@ client.on("message", msg => {
     }
   }
 
+  if (msg.content === "$gameflip"){
+    const coin = Math.floor(Math.random() * 100) + 1
+    if (coin < 20){
+      msg.channel.send("League")
+    }
+    else if (coin > 20 && coin < 40){
+      msg.channel.send("Hearthstone")
+    }
+    else if (coin > 40 && coin < 60){
+      msg.channel.send("Overwatch")
+    }
+    else if (coin > 60 && coin < 80){
+      msg.channel.send("Valorant")
+    }else {
+      msg.channel.send("CSGO")
+    }
+  }
+  
+var lolChampsArray = [
+'Aatrox',
+'Ahri',
+'Akali',
+'Akshan',
+'Alistar',
+'Amumu',
+'Anivia',
+'Annie',
+'Aphelios',
+'Ashe',
+'Aurelion Sol',
+'Azir',
+'Bard',
+'Blitzcrank',
+'Brand',
+'Braum',
+'Caitlyn',
+'Camille',
+'Cassiopeia',
+'ChoGath',
+'Corki',
+'Darius',
+'Diana',
+'Dr. Mundo',
+'Draven',
+'Ekko',
+'Elise',
+'Evelynn',
+'Ezreal',
+'Fiddlesticks',
+'Fiora',
+'Fizz',
+'Galio',
+'Gangplank',
+'Garen',
+'Gnar',
+'Gragas',
+'Graves',
+'Gwen',
+'Hecarim',
+'Heimerdinger',
+'Illaoi',
+'Irelia',
+'Ivern',
+'Janna',
+'Jarvan IV',
+'Jax',
+'Jayce',
+'Jhin',
+'Jinx',
+'Ka,iSa',
+'Kalista',
+'Karma',
+'Karthus',
+'Kassadin',
+'Katarina',
+'Kayle',
+'Kayn',
+'Kennen',
+'KhaZix',
+'Kindred',
+'Kled',
+'KogMaw',
+'LeBlanc',
+'Lee Sin',
+'Leona',
+'Lillia',
+'Lissandra',
+'Lucian',
+'Lulu',
+'Lux',
+'Malphite',
+'Malzahar',
+'Maokai',
+'Master Yi',
+'Miss Fortune',
+'Mordekaiser',
+'Morgana',
+'Nami',
+'Nasus',
+'Nautilus',
+'Neeko',
+'Nidalee',
+'Nocturne',
+'Nunu & Willump',
+'Olaf',
+'Orianna',
+'Ornn',
+'Pantheon',
+'Poppy',
+'Pyke',
+'Qiyana',
+'Quinn',
+'Rakan',
+'Rammus',
+'RekSai',
+'Rell',
+'Renata Glasc',
+'Renekton',
+'Rengar',
+'Riven',
+'Rumble',
+'Ryze',
+'Samira',
+'Sejuani',
+'Senna',
+'Seraphine',
+'Sett',
+'Shaco',
+'Shen',
+'Shyvana',
+'Singed',
+'Sion',
+'Sivir',
+'Skarner',
+'Sona',
+'Soraka',
+'Swain',
+'Sylas',
+'Syndra',
+'Tahm Kench',
+'Taliyah',
+'Talon',
+'Taric',
+'Teemo',
+'Thresh',
+'Tristana',
+'Trundle',
+'Tryndamere',
+'Twisted Fate',
+'Twitch',
+'Udyr',
+'Urgot',
+'Varus',
+'Vayne',
+'Veigar',
+'VelKoz',
+'Vex',
+'Vi',
+'Viego',
+'Viktor',
+'Vladimir',
+'Volibear',
+'Warwick',
+'Wukong',
+'Xayah',
+'Xerath',
+'Xin Zhao',
+'Yasuo',
+'Yone',
+'Yorick',
+'Yuumi',
+'Zac',
+'Zed',
+'Zeri',
+'Ziggs',
+'Zilean',
+'Zoe',
+'Zyra'
+];
+
+// var randomNumber = Math.floor(Math.random()*textArray.length);
+
+// audioElement.setAttribute('src', textArray[randomNumber]);
+
   if (msg.content.startsWith("/roll")){
     rollQuery = msg.content.split("/roll ")[1]
     rollNumber = Math.floor(Math.random() * rollQuery) + 1
@@ -118,7 +329,7 @@ client.on("message", msg => {
   }
 
   if (msg.content === "$inspire"){
-    getQuote().then(quote => msg.channel.send(quote))
+    getQuote().then(quote =>     msg.channel.send(quote))
   }
 
   db.get("responding"). then(responding => {
@@ -161,6 +372,10 @@ client.on("message", msg => {
 
   if (msg.content.startsWith("$help")){
     msg.channel.send('/roll \n /$8ball \n $inspire \n $flip')
+  }
+
+  if (msg.content === "$cat"){
+    msg.channel.send(cat)
   }
 })
 

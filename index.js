@@ -2,7 +2,6 @@ const Discord = require("discord.js")
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const keepAlive = require("./server")
 const Database = require("@replit/database")
-
 const db = new Database()
 
 const client = new Discord.Client({intents:[]})
@@ -377,7 +376,40 @@ var lolChampsArray = [
   if (msg.content === "$cat"){
     msg.channel.send(cat)
   }
+
+  if (msg.content === "$chuck"){
+    getChuck().then(joke =>     msg.channel.send(joke))
+  }
+
+  if (msg.content === "$joke"){
+    getJoke().then(joke =>     msg.channel.send(joke))
+  }
 })
+
+// chucknorris joke
+function getChuck(){
+    return fetch ("https://api.chucknorris.io/jokes/random").then(res => {    
+      return res.json()
+    })
+    .then(data => {
+      return(data["value"])
+    })
+}
+
+function getJoke(){
+    return fetch ("https://icanhazdadjoke.com/", {
+      method: 'GET',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+      },
+    }).then(res => {    
+      return res.text()
+    })
+    .then(data => {
+      return(JSON.parse(data).joke)
+    })
+}
 
 keepAlive()
 const mySecret = process.env['TOKEN']

@@ -374,7 +374,7 @@ var lolChampsArray = [
   }
 
   if (msg.content === "$cat"){
-    msg.channel.send(cat)
+    getCat().then(cat =>         msg.channel.send(cat))
   }
 
   if (msg.content === "$chuck"){
@@ -396,6 +396,7 @@ function getChuck(){
     })
 }
 
+// joke
 function getJoke(){
     return fetch ("https://icanhazdadjoke.com/", {
       method: 'GET',
@@ -409,6 +410,21 @@ function getJoke(){
     .then(data => {
       return(JSON.parse(data).joke)
     })
+}
+
+// cat
+function getCat(){
+  return fetch ("https://api.thecatapi.com/v1/images/search", {
+    headers: {
+      'x-api-key': '15b80660-f787-41a9-9883-32eeb6e61353'
+    }
+  }).then(res => {
+    return res.json()
+  })
+  .then(data => {
+    console.log(data[0]["url"])
+    return(data[0]["url"])
+  })
 }
 
 keepAlive()

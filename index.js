@@ -3,6 +3,7 @@ const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch
 const keepAlive = require("./server")
 const Database = require("@replit/database")
 const db = new Database()
+const db1 = new Database()
 
 const client = new Discord.Client({intents:[]})
 
@@ -58,22 +59,6 @@ db.get("responding").then(value => {
   }
 })
 
-function updateEncouragements(encouragingMessage){
-  db.get("encouragements").then(encouragements => {
-    encouragements.push([encouragingMessage])
-    db.set("encouragements", encouragements)
-  })
-}
-
-function deleteEncouragement(index){
-  db.get("encouragements").then(encouragements => {
-    if (encouragements.length > index) {
-      encouragements.splice(index, 1)
-      db.set("encouragements", encouragements)
-    }
-  })
-}
-
 const catOptions = {
   method: 'GET',
   url: 'https://wordsapiv1.p.rapidapi.com/words/hatchback/typeOf',
@@ -98,10 +83,6 @@ function getCat(){
         })
       })
     })
-}
-
-function updateSpecs(key, value){
-  dict[key] = value
 }
 
 function getQuote(){
@@ -149,172 +130,6 @@ client.on("message", msg => {
       msg.channel.send("CSGO")
     }
   }
-  
-var lolChampsArray = [
-'Aatrox',
-'Ahri',
-'Akali',
-'Akshan',
-'Alistar',
-'Amumu',
-'Anivia',
-'Annie',
-'Aphelios',
-'Ashe',
-'Aurelion Sol',
-'Azir',
-'Bard',
-'Blitzcrank',
-'Brand',
-'Braum',
-'Caitlyn',
-'Camille',
-'Cassiopeia',
-'ChoGath',
-'Corki',
-'Darius',
-'Diana',
-'Dr. Mundo',
-'Draven',
-'Ekko',
-'Elise',
-'Evelynn',
-'Ezreal',
-'Fiddlesticks',
-'Fiora',
-'Fizz',
-'Galio',
-'Gangplank',
-'Garen',
-'Gnar',
-'Gragas',
-'Graves',
-'Gwen',
-'Hecarim',
-'Heimerdinger',
-'Illaoi',
-'Irelia',
-'Ivern',
-'Janna',
-'Jarvan IV',
-'Jax',
-'Jayce',
-'Jhin',
-'Jinx',
-'Ka,iSa',
-'Kalista',
-'Karma',
-'Karthus',
-'Kassadin',
-'Katarina',
-'Kayle',
-'Kayn',
-'Kennen',
-'KhaZix',
-'Kindred',
-'Kled',
-'KogMaw',
-'LeBlanc',
-'Lee Sin',
-'Leona',
-'Lillia',
-'Lissandra',
-'Lucian',
-'Lulu',
-'Lux',
-'Malphite',
-'Malzahar',
-'Maokai',
-'Master Yi',
-'Miss Fortune',
-'Mordekaiser',
-'Morgana',
-'Nami',
-'Nasus',
-'Nautilus',
-'Neeko',
-'Nidalee',
-'Nocturne',
-'Nunu & Willump',
-'Olaf',
-'Orianna',
-'Ornn',
-'Pantheon',
-'Poppy',
-'Pyke',
-'Qiyana',
-'Quinn',
-'Rakan',
-'Rammus',
-'RekSai',
-'Rell',
-'Renata Glasc',
-'Renekton',
-'Rengar',
-'Riven',
-'Rumble',
-'Ryze',
-'Samira',
-'Sejuani',
-'Senna',
-'Seraphine',
-'Sett',
-'Shaco',
-'Shen',
-'Shyvana',
-'Singed',
-'Sion',
-'Sivir',
-'Skarner',
-'Sona',
-'Soraka',
-'Swain',
-'Sylas',
-'Syndra',
-'Tahm Kench',
-'Taliyah',
-'Talon',
-'Taric',
-'Teemo',
-'Thresh',
-'Tristana',
-'Trundle',
-'Tryndamere',
-'Twisted Fate',
-'Twitch',
-'Udyr',
-'Urgot',
-'Varus',
-'Vayne',
-'Veigar',
-'VelKoz',
-'Vex',
-'Vi',
-'Viego',
-'Viktor',
-'Vladimir',
-'Volibear',
-'Warwick',
-'Wukong',
-'Xayah',
-'Xerath',
-'Xin Zhao',
-'Yasuo',
-'Yone',
-'Yorick',
-'Yuumi',
-'Zac',
-'Zed',
-'Zeri',
-'Ziggs',
-'Zilean',
-'Zoe',
-'Zyra'
-];
-
-// var randomNumber = Math.floor(Math.random()*textArray.length);
-
-// audioElement.setAttribute('src', textArray[randomNumber]);
 
   if (msg.content.startsWith("/roll")){
     rollQuery = msg.content.split("/roll ")[1]
@@ -383,6 +198,11 @@ var lolChampsArray = [
 
   if (msg.content === "$joke"){
     getJoke().then(joke =>     msg.channel.send(joke))
+  }
+
+  if (msg.content === "$ideas"){
+    const fruits = ['Weather', 'OzBargain', 'Bois Money', 'Standard Discord Bot features', 'MAL', 'MoviesHistory/Plan']; 
+    msg.channel.send(fruits)
   }
 })
 
